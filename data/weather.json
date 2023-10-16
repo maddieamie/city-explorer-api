@@ -135,9 +135,9 @@
             }
         ],
         "city_name": "Seattle",
-        "lon": "-122.330062",
+        "lon": -122.330062,
         "timezone": "America/Los_Angeles",
-        "lat": "47.6038321",
+        "lat": 47.6038321,
         "country_code": "US",
         "state_code": "WA"
     },
