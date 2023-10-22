@@ -55,14 +55,27 @@ class Forecast {
     constructor(obj) {
         this.city_name = obj.name;
         this.date = obj.datetime;
+        this.icon = obj.weather.icon;
         this.description = obj.weather.description;
+        this.low = obj.low_temp;
+        this.high = obj.max_temp;
+        this.temp = obj.temp;
+        
        
     }
 }
 
 
 app.use((error, req, res, next) => {
-    res.status(500).send(error.message);
-})
+    console.error(error); 
+  
+    
+    res.status(500).json({
+      error: {
+        code: 500,
+        message: 'Something went wrong. Please try again later.',
+      },
+    });
+  });
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
