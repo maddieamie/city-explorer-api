@@ -20,6 +20,24 @@ app.get('/weather', (req, res, next) => {
     res.status(200).send(weatherData);
 }) */
 
+app.get('/api/location', async (req, res, next) => {
+    try {
+        const { searchQuery } = req.query;
+        const locationIQApiKey = process.env.VITE_LOCATIONIQ_API_KEY; // Load the LocationIQ API key from an environment variable
+
+        const locationIQResponse = await axios.get(`https://us1.locationiq.com/v1/search?key=${locationIQApiKey}&q=${searchQuery}&format=json`);
+        res.status(200).json(locationIQResponse.data);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            error: {
+                code: 500,
+                message: 'Something went wrong. Please try again later.',
+            },
+        });
+    }
+});
+
 
 app.get('/weather', (req, res, next) => {
     try {
@@ -79,3 +97,4 @@ app.use((error, req, res, next) => {
   });
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
+
