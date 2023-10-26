@@ -12,7 +12,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3002;
 
-app.get('/', (request, response, next) => {
+app.get('/', async (request, response, next) => {
     response.status(200).send('Default Route Working');
 });
 
