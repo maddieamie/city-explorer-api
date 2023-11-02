@@ -28,6 +28,7 @@ app.get('/api/location', async (req, res, next) => {
 
         const locationIQResponse = await axios.get(`https://us1.locationiq.com/v1/search?key=${locationIQApiKey}&q=${searchQuery}&format=json`);
         res.status(200).json(locationIQResponse.data);
+
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({
@@ -38,6 +39,53 @@ app.get('/api/location', async (req, res, next) => {
         });
     }
 });
+
+
+app.get('/api/mapurl', async (req, res, next) => {
+
+    try {const { lat, lon } = req.query;
+    const locationIQApiKey = process.env.VITE_LOCATIONIQ_API_KEY; 
+
+    const mapIQResponse = await axios.get(`https://maps.locationiq.com/v3/staticmap?key=${locationIQApiKey}&center=${lat},${lon}&zoom=11&size=450x450&format=json&maptype=png&markers=icon:small-purple-cutout|${lat},${lon}`);
+
+    const mapurl = mapIQResponse.data.url;
+    console.log(mapurl);
+    res.status(200).json(mapurl);
+    
+} catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({
+        error: {
+            code: 500,
+            message: 'Something went wrong. Please try again later.',
+        },
+    });
+}
+}); 
+
+/*
+app.get('/api/mapurl', async (req, res, next) => {
+    try {
+      const { lat, lon } = req.query;
+      const locationIQApiKey = process.env.VITE_LOCATIONIQ_API_KEY;
+  
+      const mapIQResponse = await axios.get(`https://maps.locationiq.com/v3/staticmap?key=${locationIQApiKey}&center=${lat},${lon}&zoom=11&size=450x450&format=png&maptype=png&markers=icon:small-purple-cutout|${lat},${lon}`, {
+        responseType: 'arraybuffer', // Tell Axios to treat the response as binary data
+      });
+  
+      const imageBuffer = mapIQResponse.data;
+      res.setHeader('Content-Type', 'image/png'); // Set the content type to indicate it's an image
+      res.status(200).send(imageBuffer); // Send the binary image data
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({
+        error: {
+          code: 500,
+          message: 'Something went wrong. Please try again later.',
+        },
+      });
+    }
+  }); */
 
 
 app.get('/weather', (req, res, next) => {
