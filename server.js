@@ -126,9 +126,9 @@ app.get('/weatherbits', (req, res, next) => {
 
 
   app.get('/movies', (req, res, next) => {
-    const { city } = req.query;
+    const { searchQuery } = req.query;
   
-    console.log('Country Code:', city);
+    console.log('City:', searchQuery);
     
   
     const MovieKey = process.env.MOVIE_READ_ACCESS;
