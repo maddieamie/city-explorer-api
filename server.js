@@ -126,15 +126,15 @@ app.get('/weatherbits', (req, res, next) => {
 
 
   app.get('/movies', (req, res, next) => {
-    const { code } = req.query;
+    const { city } = req.query;
   
-    console.log('Country Code:', code);
+    console.log('Country Code:', city);
     
   
     const MovieKey = process.env.MOVIE_READ_ACCESS;
 
   
-      axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&region=${code}&sort_by=popularity.desc`, {
+      axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&city=${city}&sort_by=popularity.desc`, {
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${MovieKey}`
