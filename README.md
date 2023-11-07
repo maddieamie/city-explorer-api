@@ -23,10 +23,15 @@ See versions of installed libraries below:
 ## Change Log
 
 10-15-2023 14:00 - Application now has a fully-functional express server, with a GET route for the location resource.
+
 10-15-2023 15:32 - Application can run requests for weather information through to a static weather.json file.  
+
 11-02-2023 14:23 - Server sends its own requests to LocationIQ, WeatherBits, and Movies DB.
+
 11-06-2023 17:00 - Server is set up for both the testing and production environment. 
+
 11-07-2023 14.20 - Application is more modular for future functionality.
+
 
 ## Credit and Collaborations
 Thank you to Code Fellows for the project, especially to Adam & Cameron for their instructive feedback. 
