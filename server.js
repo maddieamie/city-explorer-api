@@ -44,17 +44,12 @@ app.get('/api/mapurl', async (req, res, next) => {
     try {const { lat, lon } = req.query;
     const locationIQApiKey = process.env.VITE_LOCATIONIQ_API_KEY; 
 
-    const mapIQResponse = await axios.get(`https://maps.locationiq.com/v3/staticmap?key=${locationIQApiKey}&center=${lat},${lon}&zoom=11&size=450x450&format=json&maptype=streets&markers=icon:small-purple-cutout|${lat},${lon}`, { responseType: 'stream' });
+    const mapIQResponse = await axios.get(`https://maps.locationiq.com/v3/staticmap?key=${locationIQApiKey}&center=${lat},${lon}&zoom=11&size=450x450&format=jpg&maptype=streets&markers=icon:small-purple-cutout|${lat},${lon}`, { responseType: 'stream' });
 
-    /* const mapurl = mapIQResponse.data;
+    const mapurl = mapIQResponse.data.responseUrl;
     console.log(mapurl);
-    res.status(200).json(mapurl); */
+    res.status(200).json(mapurl); 
 
-        // Set the appropriate content type for the image response
-        res.setHeader('Content-Type', 'image/jpeg');
-
-        // Pipe the image data directly to the response
-        mapIQResponse.data.pipe(res);
     
 } catch (error) {
     console.error('Error:', error);
