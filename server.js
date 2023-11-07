@@ -134,7 +134,7 @@ app.get('/weatherbits', (req, res, next) => {
     const MovieKey = process.env.MOVIE_READ_ACCESS;
 
   
-      axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&city=${city}&sort_by=popularity.desc`, {
+      axios.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&city=${searchQuery}&sort_by=popularity.desc`, {
         headers: {
           accept: 'application/json',
           Authorization: `Bearer ${MovieKey}`
