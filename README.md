@@ -3,7 +3,7 @@
 # City Explorer API
 
 **Author**: Maddie Lewis
-**Version**: 1.0.5 
+**Version**: 1.0.6 
 
 ## Overview
 This server will send data about the cities we are searching. They will be able to see the weather, movies, and information about cities that are requested.
@@ -31,6 +31,8 @@ See versions of installed libraries below:
 11-06-2023 17:00 - Server is set up for both the testing and production environment. 
 
 11-07-2023 14.20 - Application is more modular for future functionality.
+
+11-11-2023 17:57 - Application now has a general cache & a movie data cache, as well as API points for Yelp restaurant data. 
 
 
 ## Credit and Collaborations
