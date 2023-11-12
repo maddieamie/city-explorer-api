@@ -1,21 +1,37 @@
 'use strict'
 const axios = require('axios')
+const cache = require('./cache');
+
 
 function getWeather (req, res, next) {
     const { lat, lon } = req.query;
   
     console.log('Latitude:', lat);
     console.log('Longitude:', lon);
+
+    const key = 'City Deets: ' + lat + lon;
   
     const WeatherAPIKey = process.env.WEATHER_API_KEY;
-  
+    if (cache[key] && (Date.now() - cache[key].timestamp < 86400000)) {
+      console.log('cache hit - sending data from cache')
+      res.status(200).send(cache[key].data)
+      //cache hit for 1 day of time, 60000 is one minute
+    }
+    else {
+    console.log('cache miss - making a new request')
     axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${WeatherAPIKey}`)
       .then((WeatherBitsResponse) => {
         console.log(typeof WeatherBitsResponse.data.data);
         const dataArray = WeatherBitsResponse.data.data;
   
         const forecasts = dataArray.map(data => new Forecast(data));
-        res.status(200).send(forecasts);
+        return forecasts;
+      })
+      .then(forecasts => {
+        cache[key] = {};
+        cache[key].data = forecasts;
+        cache[key].timestamp = Date.now()
+        res.status(200).send(forecasts)
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -28,6 +44,7 @@ function getWeather (req, res, next) {
         });
       });
   };
+};
 
   class Forecast {
     constructor(obj) {

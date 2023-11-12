@@ -1,17 +1,25 @@
 'use strict'
 const axios = require('axios')
+const cache = require('./cache');
 
 
 function getFood (req, res, next) {
     const { lat, lon } = req.query;
   
     console.log('Lat & Lon:', lat, lon);
+    const key = 'City Searched: ' + lat + lon;
     
   
     const YelpKey = process.env.YELP_KEY;
     const url = `https://api.yelp.com/v3/businesses/search?latitude=47.6061&longitude=-122.3328&term=restaurants&radius=7000&open_now=true&sort_by=best_match&limit=20`
 
-  
+    if (cache[key] && (Date.now() - cache[key].timestamp < 1800000)) {
+      console.log('cache hit - sending data from cache')
+      res.status(200).send(cache[key].data)
+      //cache hit for 1 day of time, 60000 is one minute
+    }
+    else {
+    console.log('cache miss - making a new request')
       axios.get(url, {
         headers: {
           accept: 'application/json',
@@ -21,8 +29,15 @@ function getFood (req, res, next) {
         console.log(FoodResponse);
         const dataArray = FoodResponse.data.businesses;
         const FoodList = dataArray.map(data => new Food(data));
-        res.status(200).send(FoodList);
+        return FoodList;
       })
+      .then(FoodList => {
+        cache[key] = {};
+        cache[key].data = FoodList;
+        cache[key].timestamp = Date.now()
+        res.status(200).send(FoodList)})
+       
+      
       .catch((error) => {
         console.error('Error:', error);
         res.status(500).json({
@@ -34,7 +49,7 @@ function getFood (req, res, next) {
         next(error);
       });
   };
-
+}
   class Food{
     constructor(obj) {
       this.id = obj.id;
