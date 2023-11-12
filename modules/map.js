@@ -1,5 +1,6 @@
 'use strict'
 const axios = require('axios')
+const cache = require('./cache');
 
 
 function getMap (req, res, next) {

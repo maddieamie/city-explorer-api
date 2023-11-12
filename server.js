@@ -9,6 +9,7 @@ const weatherData = require('./data/weather.json');
 const getMap = require('./modules/map');
 const getWeather = require('./modules/weather');
 const getMovies = require('./modules/movies');
+const getFood = require('./modules/food');
 
 const app = express();
 
@@ -47,6 +48,8 @@ app.get('/api/mapurl', getMap)
 app.get('/weatherbits', getWeather)
 
 app.get('/movies', getMovies)
+
+app.get('/food', getFood)
 
 /*
 app.get('/weather', (req, res, next) => {
